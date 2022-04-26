@@ -1,3 +1,4 @@
+const mongoose = require("mongoose");
 const PostMessage = require("../models/postMessage");
 
 const getPosts = async (req, res) => {
@@ -21,7 +22,44 @@ const createPost = async (req, res) => {
   }
 };
 
+const updatePost = async (req, res) => {
+  const post = req.body;
+  const { id } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(id))
+    return res.status(404).send("No post with that id");
+
+  try {
+    const updatedPost = await PostMessage.findByIdAndUpdate(
+      id,
+      { ...post },
+      {
+        new: true,
+      }
+    );
+    res.status(201).json(updatedPost);
+  } catch (error) {
+    res.status(409).json({ message: error.message });
+  }
+};
+
+const deletePost = async (req, res) => {
+  const { id } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(id))
+    return res.status(404).send("No post with that id");
+
+  try {
+    await PostMessage.findByIdAndRemove(id);
+    res.status(201).json("Post deleted");
+  } catch (error) {
+    res.status(409).json({ message: error.message });
+  }
+};
+
 module.exports = {
   getPosts,
   createPost,
+  updatePost,
+  deletePost,
 };
