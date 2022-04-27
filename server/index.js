@@ -3,6 +3,7 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const postRoute = require("./routes/posts");
+const authRouter = require("./routes/auth");
 
 const app = express();
 
@@ -18,6 +19,7 @@ mongoose
   .catch((e) => console.log(e));
 
 app.use("/api/post", postRoute);
+app.use("/api/auth", authRouter);
 
 app.listen(5000, () => {
   console.log("Backend is running on port 5000");
