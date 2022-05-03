@@ -16,7 +16,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Navigate to={"/posts"} replace />}></Route>
           <Route path="/posts" element={<Home />} />
-          <Route path="/posts/search" element={<Home />} />
+          <Route path="/post/search" element={<Home />} />
           <Route path="/posts/:id" element={<PostDetails />} />
           <Route path="/auth" element={!user ? <Auth /> : <Home />}></Route>
         </Routes>

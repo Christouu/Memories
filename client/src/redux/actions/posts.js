@@ -5,17 +5,29 @@ import {
   UPDATE,
   DELETE,
   LIKE,
+  FETCH_BY_SEARCH,
 } from "../../constants/actionTypes";
 
 // Action Creators
 // add async (dispatch) for fetching async data
-export const getPosts = () => async (dispatch) => {
+export const getPosts = (page) => async (dispatch) => {
   try {
-    const { data } = await api.fetchPosts();
+    const { data } = await api.fetchPosts(page);
+
     const action = { type: FETCH_ALL, payload: data };
     dispatch(action);
   } catch (error) {
     console.log(error.message);
+  }
+};
+
+export const getPostBySearch = (searchQuery) => async (dispatch) => {
+  try {
+    const { data } = await api.fecthPostsBySearch(searchQuery);
+    const action = { type: FETCH_BY_SEARCH, payload: data };
+    dispatch(action);
+  } catch (error) {
+    console.log(error);
   }
 };
 

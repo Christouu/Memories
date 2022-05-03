@@ -14,7 +14,7 @@ import {
 } from "@material-ui/core";
 import useStyles from "../../styles";
 import { useDispatch } from "react-redux";
-import { getPosts } from "../../redux/actions/posts";
+import { getPosts, getPostBySearch } from "../../redux/actions/posts";
 import Paginate from "../Pagination/Pagination";
 
 function useQuery() {
@@ -33,13 +33,6 @@ const Home = () => {
   const searchQuery = query.get("searchQuery");
   const dispatch = useDispatch();
 
-  const handleKeyPress = (e) => {
-    if (e.keycode === 13) {
-      //search posts
-      searchPost();
-    }
-  };
-
   const handleAdd = (tag) => {
     setTags([...tags, tag]);
   };
@@ -49,16 +42,28 @@ const Home = () => {
   };
 
   const searchPost = () => {
-    if (search.trim()) {
+    if (search.trim() || tags) {
       //dispatch for searched posts
+      dispatch(getPostBySearch({ search, tags: tags.join(",") }));
+      history(
+        `/post/search?searchQuery=${search || "none"}&tags=${tags.join(",")}`
+      );
     } else {
       history("/");
     }
   };
 
-  useEffect(() => {
-    dispatch(getPosts());
-  }, [currentId, dispatch]);
+  const handleKeyPress = (e) => {
+    if (e.keycode === 13) {
+      //search posts
+      searchPost();
+    }
+  };
+
+  // useEffect(() => {
+  //   dispatch(getPosts());
+  // }, [currentId, dispatch]);
+
   return (
     <>
       <Grow in>
@@ -110,7 +115,7 @@ const Home = () => {
               </AppBar>
               <Form currentId={currentId} setCurrentId={setCurrentId} />
               <Paper elevation={6}>
-                <Paginate />
+                <Paginate page={page} />
               </Paper>
             </Grid>
           </Grid>
