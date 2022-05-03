@@ -16,8 +16,10 @@ export const Form = ({ currentId, setCurrentId }) => {
 
   const classes = useStyles();
   const user = JSON.parse(localStorage.getItem("profile"));
-  const post = useSelector((state) =>
-    currentId ? state.posts.find((p) => p._id === currentId) : null
+  const post = useSelector(
+    (
+      state //console.log(state)
+    ) => (currentId ? state.posts.posts.find((p) => p._id === currentId) : null)
   );
 
   const handleSubmit = (e) => {
@@ -58,7 +60,7 @@ export const Form = ({ currentId, setCurrentId }) => {
   }
 
   return (
-    <Paper className={classes.paper}>
+    <Paper className={classes.paper} elevation={6}>
       <form
         autoComplete="off"
         noValidate
