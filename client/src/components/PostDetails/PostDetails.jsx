@@ -11,19 +11,28 @@ import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
 import { useParams, useNavigate } from "react-router-dom";
 
-import { getPost } from "../../redux/actions/posts";
+import { getPost, getPostBySearch } from "../../redux/actions/posts";
 
 const PostDetails = () => {
   const { post, posts, isLoading } = useSelector((state) => state.posts);
   const dispatch = useDispatch();
-  const histoty = useNavigate();
+  const history = useNavigate();
   const classes = useStyles();
   const { id } = useParams();
 
-  console.log(post);
+  const openPosts = (id) => {
+    history(`/posts/${id}`);
+  };
+
   useEffect(() => {
     dispatch(getPost(id));
   }, [id]);
+
+  useEffect(() => {
+    if (post) {
+      dispatch(getPostBySearch({ search: "none", tags: post?.tags.join(",") }));
+    }
+  }, [post]);
 
   if (!post) return null;
 
@@ -35,48 +44,75 @@ const PostDetails = () => {
     );
   }
 
+  // we want to keep all other posts with the same tags as our clicked
+  const recommendedPosts = posts.filter(({ _id }) => _id !== post._id);
+
   return (
-    <div className={classes.card}>
-      <div className={classes.section}>
-        <Typography variant="h3" component="h2">
-          {post.title}
-        </Typography>
-        <Typography
-          gutterBottom
-          variant="h6"
-          color="textSecondary"
-          component="h2"
-        >
-          {post.tags.map((tag) => `#${tag} `)}
-        </Typography>
-        <Typography gutterBottom variant="body1" component="p">
-          {post.message}
-        </Typography>
-        <Typography variant="h6">Created by: {post.name}</Typography>
-        <Typography variant="body1">
-          {moment(post.createdAt).fromNow()}
-        </Typography>
-        <Divider style={{ margin: "20px 0" }} />
-        <Typography variant="body1">
-          <strong>Realtime Chat - coming soon!</strong>
-        </Typography>
-        <Divider style={{ margin: "20px 0" }} />
-        <Typography variant="body1">
-          <strong>Comments - coming soon!</strong>
-        </Typography>
-        <Divider style={{ margin: "20px 0" }} />
+    <Paper style={{ padding: "20px", borderRadius: "15px" }} elevation={6}>
+      <div className={classes.card}>
+        <div className={classes.section}>
+          <Typography variant="h3" component="h2">
+            {post.title}
+          </Typography>
+          <Typography
+            gutterBottom
+            variant="h6"
+            color="textSecondary"
+            component="h2"
+          >
+            {post.tags.map((tag) => `#${tag} `)}
+          </Typography>
+          <Typography gutterBottom variant="body1" component="p">
+            {post.message}
+          </Typography>
+          <Typography variant="h6">Created by: {post.name}</Typography>
+          <Typography variant="body1">
+            {moment(post.createdAt).fromNow()}
+          </Typography>
+          <Divider style={{ margin: "20px 0" }} />
+          <Typography variant="body1">
+            <strong>Realtime Chat - coming soon!</strong>
+          </Typography>
+          <Divider style={{ margin: "20px 0" }} />
+          <Typography variant="body1">
+            <strong>Comments - coming soon!</strong>
+          </Typography>
+          <Divider style={{ margin: "20px 0" }} />
+        </div>
+        <div className={classes.imageSection}>
+          <img
+            className={classes.media}
+            src={
+              post.selectedFile ||
+              "https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png"
+            }
+            alt={post.title}
+          />
+        </div>
       </div>
-      <div className={classes.imageSection}>
-        <img
-          className={classes.media}
-          src={
-            post.selectedFile ||
-            "https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png"
-          }
-          alt={post.title}
-        />
-      </div>
-    </div>
+
+      {recommendedPosts.length && (
+        <div className={classes.section}>
+          <Typography gutterBottom variant="h5">
+            You might also like:
+          </Typography>
+          <Divider />
+          <div className={classes.recommendedPosts}>
+            {recommendedPosts.map(
+              ({ title, message, name, likes, selectedFile, _id }) => (
+                <div
+                  key={_id}
+                  style={{ margin: "20px", cursor: "pointer" }}
+                  onClick={() => openPosts(_id)}
+                >
+                  {title}
+                </div>
+              )
+            )}
+          </div>
+        </div>
+      )}
+    </Paper>
   );
 };
 
