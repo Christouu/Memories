@@ -26,5 +26,8 @@ export const fecthPostsBySearch = (searchQuery) =>
     }`
   );
 
+export const fetchComments = (value, id) =>
+  API.post(`/post/${id}/commentPost`, { value });
+
 export const signIn = (formData) => API.post("/auth/signin", formData);
 export const signUp = (formData) => API.post("/auth/signup", formData);

@@ -9,6 +9,7 @@ import {
   START_LOADING,
   END_LOADING,
   FETCH_POST,
+  FETCH_COMMENTS,
 } from "../../constants/actionTypes";
 
 // Action Creators
@@ -84,6 +85,17 @@ export const likePost = (id) => async (dispatch) => {
   try {
     const { data } = await api.likePost(id);
     dispatch({ type: LIKE, payload: data });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getCommentsForPost = (comment, postId) => async (dispatch) => {
+  try {
+    const { data } = await api.fetchComments(comment, postId);
+    dispatch({ type: FETCH_COMMENTS, payload: data });
+
+    return data.comments;
   } catch (error) {
     console.log(error);
   }

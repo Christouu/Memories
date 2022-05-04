@@ -130,6 +130,24 @@ const likePost = async (req, res) => {
   }
 };
 
+const createComment = async (req, res) => {
+  const { id } = req.params;
+  const { value } = req.body;
+
+  try {
+    const post = await PostMessage.findById(id);
+    post.comments.push(value);
+
+    const updatedPost = await PostMessage.findByIdAndUpdate(id, post, {
+      new: true,
+    });
+
+    res.status(201).json(updatePost);
+  } catch (error) {
+    res.status(409).json({ message: error.message });
+  }
+};
+
 module.exports = {
   getPosts,
   createPost,
@@ -138,4 +156,5 @@ module.exports = {
   likePost,
   getPostsBySearch,
   getPost,
+  createComment,
 };
