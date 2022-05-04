@@ -4,6 +4,7 @@ import useStyles from "./styles";
 import { TextField, Button, Typography, Paper } from "@material-ui/core";
 import FileBase from "react-file-base64";
 import { createPost, updatePost } from "../../redux/actions/posts";
+import { useNavigate } from "react-router-dom";
 
 export const Form = ({ currentId, setCurrentId }) => {
   const [postData, setPostData] = useState({
@@ -13,6 +14,7 @@ export const Form = ({ currentId, setCurrentId }) => {
     selectedFile: "",
   });
   const dispatch = useDispatch();
+  const history = useNavigate();
 
   const classes = useStyles();
   const user = JSON.parse(localStorage.getItem("profile"));
@@ -31,6 +33,7 @@ export const Form = ({ currentId, setCurrentId }) => {
       );
     } else {
       dispatch(createPost({ ...postData, name: user?.result?.name }));
+      history("/");
     }
 
     clear();
