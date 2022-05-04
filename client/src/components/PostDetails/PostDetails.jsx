@@ -105,7 +105,19 @@ const PostDetails = () => {
                   style={{ margin: "20px", cursor: "pointer" }}
                   onClick={() => openPosts(_id)}
                 >
-                  {title}
+                  <Typography gutterBottom variant="h6">
+                    {title}
+                  </Typography>
+                  <Typography gutterBottom variant="subtitle2">
+                    {name}
+                  </Typography>
+                  <Typography gutterBottom variant="subtitle2">
+                    {message}
+                  </Typography>
+                  <Typography gutterBottom variant="subtitle1">
+                    Likes: {likes.length}
+                  </Typography>
+                  <img src={selectedFile} alt="featured image" width="200px" />
                 </div>
               )
             )}
