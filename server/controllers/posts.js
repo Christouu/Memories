@@ -142,7 +142,7 @@ const createComment = async (req, res) => {
       new: true,
     });
 
-    res.status(201).json(updatePost);
+    res.status(201).json(updatedPost);
   } catch (error) {
     res.status(409).json({ message: error.message });
   }
