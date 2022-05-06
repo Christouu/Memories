@@ -20,6 +20,7 @@ For the FE, I am using:
   - JsonWebToken
   - Material ui chip input
   - Moment
+  - Google Authentication
 
 For the BE, I am using:
   - Bcrypt
@@ -28,3 +29,5 @@ For the BE, I am using:
   - Mongoose
 
  ![memoriesPic2](https://user-images.githubusercontent.com/89661647/167178773-ea4013a0-cef5-45a7-b2a0-72b40c7eef27.png)
+ 
+ ![memoriesPic3](https://user-images.githubusercontent.com/89661647/167178918-894a1276-67f5-4191-aba0-092687cc1b98.png)
