@@ -12,12 +12,14 @@ You can add and view as much memories as you like , but you can only delete or u
 
 For the FE, I am using:
   - React
+  - React Hooks
   - Redux
   - Redux-thunk
   - Material UI icons
   - Material UI core
   - JsonWebToken
-  - React Hooks
+  - Material ui chip input
+  - Moment
 
 For the BE, I am using:
   - Bcrypt
@@ -25,4 +27,4 @@ For the BE, I am using:
   - JsonWebToken
   - Mongoose
 
-
+ ![memoriesPic2](https://user-images.githubusercontent.com/89661647/167178773-ea4013a0-cef5-45a7-b2a0-72b40c7eef27.png)
